@@ -1,20 +1,31 @@
-from flask import Flask
-import os
-from dotenv import load_dotenv
-
-load_dotenv() #Load settings from .env file
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-@app.route("/")
+# Just for now (hardcoded login)
+VALID_USERNAME = "admin"
+VALID_PASSWORD = "1234"
+
+@app.route('/')
 def home():
-    return "Hello, DevSecOps World!"
+    return redirect(url_for('login'))
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    debug_mode = os.environ.get("DEBUG", "False").lower() == "true"
-    host = os.environ.get("HOST", "127.0.0.1")
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-    app.run(debug=debug_mode, host=host, port=port)
+        if username == VALID_USERNAME and password == VALID_PASSWORD:
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', error="Invalid credentials")
 
-# testing checks
+    return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
