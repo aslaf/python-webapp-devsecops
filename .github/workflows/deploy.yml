@@ -25,4 +25,4 @@ jobs:
           docker stop my-flask-app || true
           docker rm my-flask-app || true
           docker build -t my-flask-app .
-          docker run -d -p 8080:8080 --env-file .env --name my-flask-app my-flask-app
+          docker run -d --restart always -p 8080:8080 --env-file .env --name my-flask-app my-flask-app
