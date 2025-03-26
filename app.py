@@ -1,10 +1,12 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
 # Just for now (hardcoded login)
-VALID_USERNAME = "admin"
-VALID_PASSWORD = "1234"
+VALID_USERNAME = os.getenv("VALID_USERNAME")
+VALID_PASSWORD = os.getenv("VALID_PASSWORD")
 
 @app.route('/')
 def home():
@@ -28,4 +30,5 @@ def dashboard():
     return render_template('dashboard.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "False").lower()== "true"
+    app.run(debug=debug_mode)
