@@ -16,4 +16,3 @@ if __name__ == "__main__":
     host = os.environ.get("HOST", "127.0.0.1")
 
     app.run(debug=debug_mode, host=host, port=port)
-
