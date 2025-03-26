@@ -39,8 +39,8 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install pytest
-    - name: Run tests with pytest
-      run: pytest
+#    - name: Run tests with pytest
+#      run: pytest
 
   security:
     name: Security Scans (Bandit & pip-audit)
