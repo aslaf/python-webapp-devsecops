@@ -6,14 +6,15 @@ on:
 
 jobs:
   deploy:
-    name: Deploy via SSH
+    name: SSH Deploy to EC2
     runs-on: ubuntu-latest
+
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: SSH into EC2 and deploy
+    - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -25,4 +26,4 @@ jobs:
           docker stop my-flask-app || true
           docker rm my-flask-app || true
           docker build -t my-flask-app .
-          docker run -d -p 8080:8080 --env-file .env --name my-flask-app my-flask-app
+          docker run -d --restart always -p 8080:8080 --env-file .env --name my-flask-app my-flask-app
